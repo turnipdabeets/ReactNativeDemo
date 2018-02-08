@@ -20,7 +20,7 @@ export default class App extends Component {
         <Text style={styles.instructions}>{instructions}</Text>
         <View>
           <LoginButton
-            publishPermissions={['publish_actions']}
+            readPermissions={['public_profile']}
             onLoginFinished={(error, result) => {
               if (error) {
                 alert('login has error: ' + result.error);
