@@ -12,12 +12,43 @@ const instructions = Platform.select({
 });
 
 export default class App extends Component {
+  state = {
+    latitude: '',
+    longitude: '',
+    error: false
+  };
+
+  componentDidMount() {
+    navigator.geolocation.getCurrentPosition(
+      position => {
+        console.log(
+          'latitude:',
+          position.coords.latitude,
+          'longitude:',
+          position.coords.longitude
+        );
+        this.setState({
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude,
+          error: null
+        });
+      },
+      error => {
+        alert(error.message);
+        console.log(error.message);
+        this.setState({ error: error.message });
+      },
+      { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
+    );
+  }
+
   render() {
     return (
       <View style={styles.container}>
         <Text style={styles.welcome}>Welcome to React Native!</Text>
         <Text style={styles.instructions}>To get started, edit App.js</Text>
         <Text style={styles.instructions}>{instructions}</Text>
+        <Text>{`${this.state.latitude} ${this.state.longitude}`}</Text>
         <View>
           <LoginButton
             readPermissions={['public_profile']}
